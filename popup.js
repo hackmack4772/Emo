@@ -70,6 +70,7 @@ const tracks = [
   
     // Volume control
     volumeSlider.addEventListener('input', () => {
+      console.log( volumeSlider.value);
       audioPlayer.volume = volumeSlider.value;
     });
   
@@ -91,51 +92,51 @@ const tracks = [
     });
   
     // Initialize the audio visualizer
-    initVisualizer();
+    // initVisualizer();
   
     // Initialize the first track
     playTrack(0);
   });
   
-  function initVisualizer() {
-    // Initialize the AudioContext
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 512;
-    const bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
+  // function initVisualizer() {
+  //   // Initialize the AudioContext
+  //   audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  //   analyser = audioContext.createAnalyser();
+  //   analyser.fftSize = 512;
+  //   const bufferLength = analyser.frequencyBinCount;
+  //   dataArray = new Uint8Array(bufferLength);
   
-    const source = audioContext.createMediaElementSource(audioPlayer);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
+  //   const source = audioContext.createMediaElementSource(audioPlayer);
+  //   source.connect(analyser);
+  //   analyser.connect(audioContext.destination);
   
-    // Set up the visualizer canvas
-    visualizerCanvas.width = bufferLength * 2.5;
-    visualizerCanvas.height = 100;
+  //   // Set up the visualizer canvas
+  //   visualizerCanvas.width = bufferLength * 2.5;
+  //   visualizerCanvas.height = 100;
   
-    drawVisualizer();
-  }
+  //   drawVisualizer();
+  // }
   
-  function drawVisualizer() {
-    analyser.getByteFrequencyData(dataArray);
+  // function drawVisualizer() {
+  //   analyser.getByteFrequencyData(dataArray);
   
-    visualizerCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+  //   visualizerCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
   
-    const barWidth = (visualizerCanvas.width / bufferLength) * 2.5;
-    let barHeight;
-    let x = 0;
+  //   const barWidth = (visualizerCanvas.width / bufferLength) * 2.5;
+  //   let barHeight;
+  //   let x = 0;
   
-    for (let i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] * 2;
+  //   for (let i = 0; i < bufferLength; i++) {
+  //     barHeight = dataArray[i] * 2;
   
-      visualizerCtx.fillStyle = `rgb(${barHeight + 100},50,50)`;
-      visualizerCtx.fillRect(x, visualizerCanvas.height - barHeight / 2, barWidth, barHeight);
+  //     visualizerCtx.fillStyle = `rgb(${barHeight + 100},50,50)`;
+  //     visualizerCtx.fillRect(x, visualizerCanvas.height - barHeight / 2, barWidth, barHeight);
   
-      x += barWidth + 1;
-    }
+  //     x += barWidth + 1;
+  //   }
   
-    requestAnimationFrame(drawVisualizer);
-  }
+  //   requestAnimationFrame(drawVisualizer);
+  // }
   
   function toggleRepeat() {
     isRepeated = !isRepeated;
